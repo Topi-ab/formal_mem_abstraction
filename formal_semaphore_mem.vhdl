@@ -21,7 +21,7 @@ use ieee.numeric_std.all;
 	but constant over time (anyconst attribute), and the module only checks the 
 	semaphore on address master_ptr.
 	
-	As the master_ptr is free variable, all address will be analyzed in formal tool.
+	As the master_ptr is free variable, all addresses will be analyzed in formal tool.
 */
 
 entity formal_semaphore_mem is
