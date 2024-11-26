@@ -7,7 +7,7 @@ use ieee.numeric_std.all;
 	
 	The size of array is 2**DATA_BITS.
 	
-	Each semaphore has range of SEMPAHORE_MIN (<= 0)to SEMAPHORE_MAX (> 0).
+	Each semaphore has range of SEMPAHORE_MIN (<= 0) to SEMAPHORE_MAX (> 0).
 	
 	Each a_valid_in='1' cycle increases the semaphore at address a_data_in.
 	Each b_valid_in='1' cycle decreases the semaphore at address b_data_in.
