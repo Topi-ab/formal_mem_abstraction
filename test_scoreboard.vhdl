@@ -5,7 +5,9 @@ use ieee.numeric_std.all;
 entity test_scoreboard is
 	generic(
 		PTR_BITS: natural := 32;
-		DATA_BITS: natural := 8
+		DATA_BITS: natural := 8;
+		CHECK_ASSERT: boolean := true;
+		CHECK_ASSUME: boolean := false
 	);
 	port(
 		clk_in: in std_logic;
@@ -59,7 +61,9 @@ begin
 	scoreboard_i: entity work.formal_scoreboard
 		generic map(
 			PTR_BITS => PTR_BITS,
-			DATA_BITS => DATA_BITS
+			DATA_BITS => DATA_BITS,
+			CHECK_ASSERT => CHECK_ASSERT,
+			CHECK_ASSUME => CHECK_ASSUME
 		)
 		port map(
 			clk_in => clk_in,

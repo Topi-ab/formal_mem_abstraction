@@ -2,10 +2,32 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+/*
+	Think of this module as two fifos used to synchronize two streams (a_* and b_*).
+	
+	When data is received on the first port, it stays in the fifo until the corresponding
+	data is received on the the second port, and then the comparison is done between 
+	the first and the second data.
+	
+	if CHECK_ASSERT is true => assert is generated.
+	if CHECK_ASSUME is true => assume is generated.
+	
+	The implementation is based on free pointer (master_ptr), which is random value,
+	but constant over time (anyconst attribute), and the module only checks the 
+	data which has sequence number (a_ptr / b_ptr) of master_ptr.
+	
+	When both ports have received the corresponding data, the comparison is done
+	to check that the data from both ports are equal.
+	
+	As the master_ptr is free variable, all addresses will be analyzed in formal tool.
+*/
+
 entity formal_scoreboard is
 	generic(
 		PTR_BITS: natural := 8;
-		DATA_BITS: natural
+		DATA_BITS: natural;
+		CHECK_ASSERT: boolean;
+		CHECK_ASSUME: boolean
 	);
 	port(
 		clk_in: in std_logic;
