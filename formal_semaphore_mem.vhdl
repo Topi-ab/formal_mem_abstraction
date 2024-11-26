@@ -61,6 +61,9 @@ architecture formal of formal_semaphore_mem is
 	signal s_cnt: integer range SEMAPHORE_MIN-1 to SEMAPHORE_MAX+1;
 	attribute anyseq of s_cnt: signal is true;
 begin
+	assert SEMAPHORE_MIN <= 0 report "SEMAPHORE_MIN must be non-positive" severity failure;
+	assert SEMAPHORE_MAX > 0 report "SEMAPHORE_MAX must be positive" severity failure;
+
 	default clock is rising_edge(clk_in);
 	
 	-- *_ptr_eq:
