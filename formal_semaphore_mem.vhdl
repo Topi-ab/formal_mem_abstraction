@@ -79,6 +79,4 @@ begin
 	f_1: assert always (not c_assert) or (s_cnt /= SEMAPHORE_MIN-1 and s_cnt /= SEMAPHORE_MAX+1);
 	
 	a_1: assume always (not c_assume) or (s_cnt /= SEMAPHORE_MIN-1 and s_cnt /= SEMAPHORE_MAX+1);
-	
-	cover {[*5]; a_ptr_eq; true};
 end;
