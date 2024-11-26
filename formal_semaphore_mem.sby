@@ -1,0 +1,19 @@
+[tasks]
+bmc
+cover
+
+[options]
+bmc: mode bmc
+cover: mode cover
+depth 45
+
+[engines]
+smtbmc boolector
+
+[script]
+ghdl --std=08 formal_semaphore_mem.vhdl test_semaphore_mem.vhdl -e test_semaphore_mem
+prep -top test_semaphore_mem
+
+[files]
+test_semaphore_mem.vhdl
+formal_semaphore_mem.vhdl

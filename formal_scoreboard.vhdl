@@ -66,6 +66,7 @@ begin
 	assume a_ptr = 0;
 	assume always a_valid_in = '1' |=> a_ptr = prev(a_ptr) + 1;
 	assume always a_valid_in = '0' |=> stable(a_ptr);
+	
 	assume b_ptr = 0;
 	assume always b_valid_in = '1' |=> b_ptr = prev(b_ptr) + 1;
 	assume always b_valid_in = '0' |=> stable(b_ptr);
