@@ -50,7 +50,7 @@ architecture formal of formal_semaphore_mem is
 	signal c_assume: boolean := CHECK_ASSUME;
 	signal c_assert: boolean := CHECK_ASSERT;
 	
-	signal master_ptr: unsigned(DATA_BITS-1 downto 0);
+	signal master_ptr: std_logic_vector(DATA_BITS-1 downto 0);
 	attribute anyconst of master_ptr: signal is true;
 	
 	signal a_ptr_eq: std_logic;
@@ -64,8 +64,8 @@ begin
 	default clock is rising_edge(clk_in);
 	
 	-- *_ptr_eq:
-	assume always a_ptr_eq = '1' <-> unsigned(a_data_in) = master_ptr and a_valid_in = '1';
-	assume always b_ptr_eq = '1' <-> unsigned(b_data_in) = master_ptr and b_valid_in = '1';
+	assume always a_ptr_eq = '1' <-> a_data_in = master_ptr and a_valid_in = '1';
+	assume always b_ptr_eq = '1' <-> b_data_in = master_ptr and b_valid_in = '1';
 	
 	-- s_cnt:
 	assume s_cnt = 0;
