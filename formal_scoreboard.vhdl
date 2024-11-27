@@ -86,19 +86,36 @@ begin
 
 	-- *_ptr:
 	assume a_ptr = 0;
-	assume always a_valid_in = '1' |=> a_ptr = prev(a_ptr) + 1;
-	assume always a_valid_in = '0' |=> stable(a_ptr);
+	-- assume always a_valid_in = '1' |=> a_ptr = prev(a_ptr) + 1;
+	-- assume always a_valid_in = '0' |=> stable(a_ptr);
+	-- assume always prev(a_valid_in = '1') |-> a_ptr = prev(a_ptr) + 1;
+	-- assume always prev(a_valid_in = '0') |-> stable(a_ptr);
+	assume always prev(a_valid_in = '1') <-> a_ptr = prev(a_ptr) + 1;
+	assume always prev(a_valid_in = '0') <-> stable(a_ptr);
 	
 	assume b_ptr = 0;
-	assume always b_valid_in = '1' |=> b_ptr = prev(b_ptr) + 1;
-	assume always b_valid_in = '0' |=> stable(b_ptr);
+	-- assume always b_valid_in = '1' |=> b_ptr = prev(b_ptr) + 1;
+	-- assume always b_valid_in = '0' |=> stable(b_ptr);
+	-- assume always prev(b_valid_in = '1') |-> b_ptr = prev(b_ptr) + 1;
+	-- assume always prev(b_valid_in = '0') |-> stable(b_ptr);
+	assume always prev(b_valid_in = '1') <-> b_ptr = prev(b_ptr) + 1;
+	assume always prev(b_valid_in = '0') <-> stable(b_ptr);
 	
 	-- mem_*:
-	assume always a_ptr_eq = '1' |-> mem_a = a_data_in;
-	assume always b_ptr_eq = '1' |-> mem_b = b_data_in;
+	-- assume always a_ptr_eq = '1' |-> mem_a = a_data_in;
+	-- assume always b_ptr_eq = '1' |-> mem_b = b_data_in;
+	assume always a_ptr_eq = '1' <-> mem_a = a_data_in;
+	assume always b_ptr_eq = '1' <-> mem_b = b_data_in;
 	
-	assume never a_captured = '1' and fell(b_ptr_eq);
-	assume never b_captured = '1' and fell(a_ptr_eq);
-	
-	f_1: assert always ab_captured = '1' |-> mem_a = mem_b;
+	-- These assumes seem to slow down the verification.
+	-- assume never a_captured = '1' and fell(b_ptr_eq);
+	-- assume never b_captured = '1' and fell(a_ptr_eq);
+
+	assert_g: if CHECK_ASSERT generate
+		f_1: assert always ab_captured = '1' |-> mem_a = mem_b;
+	end generate;
+
+	assume_g: if CHECK_ASSUME generate
+		a_1: assume always ab_captured = '1' |-> mem_a = mem_b;
+	end generate;
 end;

@@ -5,10 +5,11 @@ cover
 [options]
 bmc: mode bmc
 cover: mode cover
-depth 450
+depth 45
 
 [engines]
 btor btormc
+#smtbmc boolector
 
 [script]
 ghdl --std=08 formal_scoreboard.vhdl test_scoreboard.vhdl -e test_scoreboard

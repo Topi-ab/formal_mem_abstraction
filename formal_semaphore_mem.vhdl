@@ -47,9 +47,6 @@ architecture formal of formal_semaphore_mem is
 	attribute anyseq: boolean;
 	attribute anyconst: boolean;
 	
-	signal c_assume: boolean := CHECK_ASSUME;
-	signal c_assert: boolean := CHECK_ASSERT;
-	
 	signal master_ptr: std_logic_vector(DATA_BITS-1 downto 0);
 	attribute anyconst of master_ptr: signal is true;
 	
@@ -72,11 +69,15 @@ begin
 	
 	-- s_cnt:
 	assume s_cnt = 0;
-	assume always a_ptr_eq = '1' and b_ptr_eq = '0' |=> s_cnt = prev(s_cnt) + 1;
-	assume always a_ptr_eq = '0' and b_ptr_eq = '1' |=> s_cnt = prev(s_cnt) - 1;
 	assume always a_ptr_eq = b_ptr_eq |=> stable(s_cnt);
+	assume always prev(a_ptr_eq = '1' and b_ptr_eq = '0') -> s_cnt = prev(s_cnt) + 1;
+	assume always prev(a_ptr_eq = '0' and b_ptr_eq = '1') -> s_cnt = prev(s_cnt) - 1;
 	
-	f_1: assert always (not c_assert) or (s_cnt /= SEMAPHORE_MIN-1 and s_cnt /= SEMAPHORE_MAX+1);
+	assert_g: if CHECK_ASSERT generate	
+		f_1: assert always s_cnt /= SEMAPHORE_MIN-1 and s_cnt /= SEMAPHORE_MAX+1;
+	end generate;
 	
-	a_1: assume always (not c_assume) or (s_cnt /= SEMAPHORE_MIN-1 and s_cnt /= SEMAPHORE_MAX+1);
+	assume_g: if CHECK_ASSUME generate
+		a_1: assume always s_cnt /= SEMAPHORE_MIN-1 and s_cnt /= SEMAPHORE_MAX+1;
+	end generate;
 end;
